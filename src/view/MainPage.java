@@ -74,7 +74,24 @@ public class MainPage extends JFrame {
         cardPanel.add(gradesPanel, "grades");
 
         // Add action listeners to buttons
-        btnDashboard.addActionListener(e -> cardLayout.show(cardPanel, "dashboard"));
+        btnDashboard.addActionListener(e -> {
+            // Remove the old dashboard panel (if it exists)
+            cardPanel.remove(0); // Assuming dashboard is always the first panel
+
+            // Create a new refreshed dashboard panel
+            JPanel refreshedDashboard = new StudentDashboard().getContentPanel();
+
+            // Add it back to card layout at index 0 with the same name
+            cardPanel.add(refreshedDashboard, "dashboard");
+            
+            // Show the refreshed dashboard
+            cardLayout.show(cardPanel, "dashboard");
+
+            // Revalidate and repaint to apply changes
+            cardPanel.revalidate();
+            cardPanel.repaint();
+        });
+
         btnRegister.addActionListener(e -> cardLayout.show(cardPanel, "register"));
         btnViewStudents.addActionListener(e -> cardLayout.show(cardPanel, "view"));
         btnMarkAttendance.addActionListener(e -> cardLayout.show(cardPanel, "attendance"));
