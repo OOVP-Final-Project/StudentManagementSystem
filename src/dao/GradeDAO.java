@@ -92,8 +92,24 @@ public class GradeDAO {
         return studentGrades;
     }
 
-	public boolean updateGrade(int studentId, String newGrade, String newSemester, int newAcademicYear) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	// Update a grade record for a student
+    public boolean updateGrade(int studentId, String grade, String semester, int academicYear) {
+        String sql = "UPDATE grades SET grade = ?, semester = ?, academic_year = ? WHERE student_id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, grade);
+            stmt.setString(2, semester);
+            stmt.setInt(3, academicYear);
+            stmt.setInt(4, studentId);
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
